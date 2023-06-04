@@ -2,6 +2,8 @@ require("../data/series-model");
 const mongoose = require("mongoose");
 const Series = mongoose.model(process.env.SERIE_MODEL);
 const callbackList = require("../helpers/callback.list");
+const handler = require("../helpers/handler");
+
 
 const GetAll = function (req, res) {
 
@@ -14,18 +16,16 @@ const GetAll = function (req, res) {
 
   callbackList.ModelFindWithSlectAllCallback(Series, objectId, "seasons", function (error, series) {
     if (error) {
-      response.status = 500;
-      response.message = { error: error };
+      return handler.handlesError(res, error);
     }
     else if (series.length == 0) {
-      response.status = 404;
-      response.message = { error: "seasons not found" };
+      return handler.handleNotFound(res);
     }
     else {
       response.status = 200;
       response.message = series.seasons;
     }
-    res.status(response.status).json(response.message);
+    return handler.handleResponse(res, response);
   });
 }
 
@@ -40,18 +40,20 @@ const Find = function (req, res) {
 
   callbackList.ModelFindWithSlectAllCallback(Series, objectId, "seasons", function (error, series) {
     if (error) {
-      response.status = 500;
-      response.message = { error: error };
+      return handler.handlesError(res, error);
     }
     else if (series.length == 0) {
-      response.status = 404;
-      response.message = { error: "seasons not found" };
+      return handler.handleNotFound(res);
     }
     else {
       response.status = 200;
+      const season = series.seasons.id(seasonId);
+      if(null === season) {
+        return handler.handleNotFound(res);
+      }
       response.message = series.seasons.id(seasonId);
     }
-    res.status(response.status).json(response.message);
+    return handler.handleResponse(res, response);
   });
 }
 
@@ -66,16 +68,10 @@ const DeleteSeasonIndex = function (req, res) {
 
   callbackList.ModelFindWithSlectAllCallback(Series, objectId, "seasons", function (error, series) {
     if (error) {
-      response.status = 500;
-      response.message = { error: error };
-      res.status(response.status).json(response.message);
-      return;
+      return handler.handlesError(res, error);
     }
     else if (series.length == 0) {
-      response.status = 404;
-      response.message = { error: "seasons not found" };
-      res.status(response.status).json(response.message);
-      return;
+      return handler.handleNotFound(res);
     }
     else {
       response.status = 200;
@@ -88,10 +84,7 @@ const DeleteSeasonIndex = function (req, res) {
         }
       }
       if(!deletedFlag) {
-        response.status = 404;
-        response.message = { error: "seasons not found" };
-        res.status(response.status).json(response.message);
-        return;
+        return handler.handleNotFound(res);
       }
 
       callbackList.ModelSaveCallback(series, function (error, series) {
@@ -104,7 +97,7 @@ const DeleteSeasonIndex = function (req, res) {
           response.message = {"message":"season deleted"};
         }
         
-        res.status(response.status).json(response.message);
+        return handler.handleResponse(res, response);
       });
       
     }
@@ -122,16 +115,10 @@ const DeleteAll= function (req, res) {
 
   callbackList.ModelFindWithSlectAllCallback(Series, objectId, "seasons", function (error, series) {
     if (error) {
-      response.status = 500;
-      response.message = { error: error };
-      res.status(response.status).json(response.message);
-      return;
+      return handler.handlesError(res, error);
     }
     else if (series.length == 0) {
-      response.status = 404;
-      response.message = { error: "seasons not found" };
-      res.status(response.status).json(response.message);
-      return;
+      return handler.handleNotFound(res);
     }
     else {
       response.status = 200;
@@ -146,7 +133,7 @@ const DeleteAll= function (req, res) {
           response.message = {"message":"all season deleted"};
         }
         
-        res.status(response.status).json(response.message);
+        return handler.handleResponse(res, response);
       });
       
     }
@@ -164,16 +151,10 @@ const Add = function (req, res) {
 
   callbackList.ModelFindWithSlectAllCallback(Series, objectId, "seasons", function (error, series) {
     if (error) {
-      response.status = 500;
-      response.message = { error: error };
-      res.status(response.status).json(response.message);
-      return;
+      return handler.handlesError(res, error);
     }
     else if (series.length == 0) {
-      response.status = 404;
-      response.message = { error: "seasons not found" };
-      res.status(response.status).json(response.message);
-      return;
+      return handler.handleNotFound(res);
     }
     else {
       response.status = 200;
@@ -188,7 +169,7 @@ const Add = function (req, res) {
           response.message = series;
         }
         
-        res.status(response.status).json(response.message);
+        return handler.handleResponse(res, response);
       });
       
     }
@@ -208,16 +189,10 @@ const Update= function (req, res) {
 
   callbackList.ModelFindWithSlectAllCallback(Series, objectId, "seasons", function (error, series) {
     if (error) {
-      response.status = 500;
-      response.message = { error: error };
-      res.status(response.status).json(response.message);
-      return;
+      return handler.handlesError(res, error);
     }
     else if (series.length == 0) {
-      response.status = 404;
-      response.message = { error: "seasons not found" };
-      res.status(response.status).json(response.message);
-      return;
+      return handler.handleNotFound(res);
     }
     else {
       response.status = 200;
@@ -238,7 +213,7 @@ const Update= function (req, res) {
           response.message = series;
         }
         
-        res.status(response.status).json(response.message);
+        return handler.handleResponse(res, response);
       });
 
     }
@@ -257,36 +232,24 @@ const Patch= function (req, res) {
 
   callbackList.ModelFindWithSlectAllCallback(Series, objectId, "seasons", function (error, series) {
     if (error) {
-      response.status = 500;
-      response.message = { error: error };
-      res.status(response.status).json(response.message);
-      return;
+      return handler.handlesError(res, error);
     }
     else if (series.length == 0) {
-      response.status = 404;
-      response.message = { error: "seasons not found" };
-      res.status(response.status).json(response.message);
-      return;
+      return handler.handleNotFound(res);
     }
     else {
       response.status = 200;
       let newSeason = req.body;
-      console.log(seasonId);
-      console.log(newSeason.episodes);
 
       let currentSeason = series.seasons.id(seasonId);
-      console.log(currentSeason);
+      
       if(currentSeason == null) {
-        response.status = 404;
-        response.message = { error: "seasons not found" };
-        res.status(response.status).json(response.message);
-        return;
+        return handler.handleNotFound(res);
       }
       if(undefined != newSeason.name) {
         currentSeason.name = newSeason.name;
       }
       if(undefined != newSeason.episodes) {
-        console.log(newSeason.episodes);
         currentSeason.episodes = newSeason.episodes;
       }
       if(undefined != newSeason.year) {
@@ -311,7 +274,7 @@ const Patch= function (req, res) {
           response.message = series;
         }
         
-        res.status(response.status).json(response.message);
+        return handler.handleResponse(res, response);
       });
 
     }

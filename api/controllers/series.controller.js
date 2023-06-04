@@ -2,6 +2,8 @@ require("../data/series-model");
 const mongoose = require("mongoose");
 const Series = mongoose.model(process.env.SERIE_MODEL);
 const callbackList = require("../helpers/callback.list");
+const handler = require("../helpers/handler");
+
 let offset = process.env.DEFAULT_OFFSET;
 let count = process.env.DEFAULT_COUNT;
 
@@ -28,19 +30,17 @@ const GetAll = function (req, res) {
   else {
     callbackList.ModelFindAllCallback(Series, offset, count, function (error, series) {
       if (error) {
-        response.status = 500;
-        response.message = { error: error };
+        return handler.handlesError(res, error);
       }
       else if (series.length == 0) {
-        response.status = 404;
-        response.message = { error: "series not found" };
+        return handler.handleNotFound(res);
       }
       else {
         response.status = 200;
         response.message = series;
       }
-      console.log(response.message);
-      res.status(response.status).json(response.message);
+      
+      return handler.handleResponse(res, response);
     });
   }
 }
@@ -58,14 +58,13 @@ const Add = function (req, res) {
       response.message = { error: error };
     }
     else if (series.length == 0) {
-      response.status = 404;
-      response.message = { error: "Series not found" };
+      return handler.handleNotFound(res);
     }
     else {
       response.status = 200;
       response.message = series;
     }
-    res.status(response.status).json(response.message);
+    return handler.handleResponse(res, response);
   })
 }
 
@@ -83,14 +82,13 @@ const Find = function (req, res) {
       response.message = error;
     }
     else if (null === series) {
-      response.status = 404;
-      response.message = { error: "Series ID Not Found" }
+      return handler.handleNotFound(res);
     }
     else {
       response.status = 200;
       response.message = series;
     }
-    res.status(response.status).json(response.message);
+    return handler.handleResponse(res, response);
   });
 }
 
@@ -110,8 +108,7 @@ const Delete = function (req, res) {
       response.message = error;
     }
     else if (null === deletedSeries) {
-      response.status = 404;
-      response.message = { error: "Series ID Not Found" }
+      return handler.handleNotFound(res);
     }
     else {
       response.status = 200;
@@ -146,10 +143,7 @@ const Update = function (req, res) {
       return;
     }
     else if (null === series) {
-      response.status = 404;
-      response.message = { error: "Series ID Not Found" }
-      res.status(response.status).json(response.message);
-      return;
+      return handler.handleNotFound(res);
     }
     else {
       series.title = newSeries.title;
@@ -165,15 +159,14 @@ const Update = function (req, res) {
           response.message = error;
         }
         else if (null === series) {
-          response.status = 404;
-          response.message = { error: "Series ID Not Found" };
+          return handler.handleNotFound(res);
         }
         else {
           response.status = 200;
           response.message = series;
         }
 
-        res.status(response.status).json(response.message);
+        return handler.handleResponse(res, response);
 
       });
 
@@ -208,10 +201,7 @@ const Patch = function (req, res) {
       return;
     }
     else if (null === series) {
-      response.status = 404;
-      response.message = { error: "Series ID Not Found" }
-      res.status(response.status).json(response.message);
-      return;
+      return handler.handleNotFound(res);
     }
     else {
       if(undefined != req.body.title) {
@@ -239,15 +229,14 @@ const Patch = function (req, res) {
           response.message = error;
         }
         else if (null === series) {
-          response.status = 404;
-          response.message = { error: "Game ID Not Found" };
+          return handler.handleNotFound(res);
         }
         else {
           response.status = 200;
           response.message = series;
         }
 
-        res.status(response.status).json(response.message);
+        return handler.handleResponse(res, response);
 
       });
 
