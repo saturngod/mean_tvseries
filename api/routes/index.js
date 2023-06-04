@@ -21,6 +21,8 @@ router.route("/series/:seriesID/seasons")
 
 router.route("/series/:seriesID/seasons/:seasonID")
   .get(seasonController.Find)
-  .delete(seasonController.DeleteSeasonIndex);
+  .delete(seasonController.DeleteSeasonIndex)
+  .put(seasonController.Update)
+  .patch(seasonController.Patch);
 
 module.exports = router;

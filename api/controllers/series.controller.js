@@ -214,19 +214,19 @@ const Patch = function (req, res) {
       return;
     }
     else {
-      if(null != req.body.title) {
+      if(undefined != req.body.title) {
         series.title = req.body.title;
       }
-      if(null != req.body.year) {
+      if(undefined != req.body.year) {
         series.year = req.body.year;
       }
-      if(null != req.body.rate) {
+      if(undefined != req.body.rate) {
         series.rate = req.body.rate;
       }
-      if(null != req.body.channel) {
+      if(undefined != req.body.channel) {
         series.channel = req.body.channel;
       }
-      if(null != req.body.seasons) {
+      if(undefined != req.body.seasons) {
         if(req.body.seasons.length > 0) {
           series.seasons = req.body.seasons;
         }
