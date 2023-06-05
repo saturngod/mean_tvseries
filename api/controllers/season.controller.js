@@ -94,7 +94,7 @@ const DeleteSeasonIndex = function (req, res) {
         }
         else {
           response.status = 200;
-          response.message = {"message":"season deleted"};
+          response.message = {"message":process.env.DELETE_SUCCESS_TEXT};
         }
         
         return handler.handleResponse(res, response);
@@ -130,7 +130,7 @@ const DeleteAll= function (req, res) {
         }
         else {
           response.status = 200;
-          response.message = {"message":"all season deleted"};
+          response.message = {"message":process.env.ALL_DELETE_SUCCESS_TEXT};
         }
         
         return handler.handleResponse(res, response);

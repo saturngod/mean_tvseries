@@ -12,7 +12,7 @@ const handlesError = function (res, error) {
 const handleNotFound = function (res) {
     let response = {};
     response.status = 404;
-    response.message = { error: "Resource Not found" };
+    response.message = { error: process.env.RESOURCE_NOT_FOUND_TEXT };
     handleResponse(res, response);
 };
 

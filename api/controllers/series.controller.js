@@ -7,7 +7,7 @@ const handler = require("../helpers/handler");
 let offset = process.env.DEFAULT_OFFSET;
 let count = process.env.DEFAULT_COUNT;
 
-const GetAll = function (req, res) {
+const GetAll = function(req, res) {
   console.log("GetAll");
   let response = {
     status: 200,
@@ -24,11 +24,11 @@ const GetAll = function (req, res) {
   if (count > process.env.DEFAULT_MAX_COUNT) {
 
     response.status = 400;
-    response.message = { error: "Over the count limit" };
+    response.message = { error: process.env.OVER_LIMIT_TEXT };
 
   }
   else {
-    callbackList.ModelFindAllCallback(Series, offset, count, function (error, series) {
+    callbackList.ModelFindAllCallback(Series, offset, count, function(error, series) {
       if (error) {
         return handler.handlesError(res, error);
       }
@@ -39,20 +39,20 @@ const GetAll = function (req, res) {
         response.status = 200;
         response.message = series;
       }
-      
+
       return handler.handleResponse(res, response);
     });
   }
 }
 
-const Add = function (req, res) {
+const Add = function(req, res) {
 
   let response = {
     status: 200,
     message: {}
   };
 
-  callbackList.ModelAddCallback(Series, req.body, function (error, series) {
+  callbackList.ModelAddCallback(Series, req.body, function(error, series) {
     if (error) {
       response.status = 500;
       response.message = { error: error };
@@ -68,7 +68,7 @@ const Add = function (req, res) {
   })
 }
 
-const Find = function (req, res) {
+const Find = function(req, res) {
   let objectId = req.params.seriesID;
 
   let response = {
@@ -76,7 +76,7 @@ const Find = function (req, res) {
     message: {}
   };
 
-  callbackList.ModelFindOneCallback(Series, objectId, function (error, series) {
+  callbackList.ModelFindOneCallback(Series, objectId, function(error, series) {
     if (error) {
       response.status = 500;
       response.message = error;
@@ -92,7 +92,7 @@ const Find = function (req, res) {
   });
 }
 
-const Delete = function (req, res) {
+const Delete = function(req, res) {
 
   let objectId = req.params.seriesID;
 
@@ -101,7 +101,7 @@ const Delete = function (req, res) {
     message: {}
   };
 
-  callbackList.ModelDeleteCallback(Series, objectId, function (error, deletedSeries) {
+  callbackList.ModelDeleteCallback(Series, objectId, function(error, deletedSeries) {
 
     if (error) {
       response.status = 500;
@@ -119,7 +119,35 @@ const Delete = function (req, res) {
 
 }
 
-const Update = function (req, res) {
+
+const _fullUpdate = function(series, req) {
+  series.title = req.body.title;
+  series.year = req.body.year;
+  series.rate = req.body.rate;
+  series.channel = req.body.channel;
+  series.seasons = req.body.seasons;
+}
+
+const _parialUpdate = function(series, req) {
+  if (req.body.title) {
+    series.title = req.body.title;
+  }
+  if (req.body.year) {
+    series.year = req.body.year;
+  }
+  if (req.body.rate) {
+    series.rate = req.body.rate;
+  }
+  if (req.body.channel) {
+    series.channel = req.body.channel;
+  }
+  if (req.body.seasons) {
+    series.seasons = req.body.seasons;
+  }
+}
+
+const _update = function(req, res, updateFillingCallback) {
+
   let objectId = req.params.seriesID;
 
   let response = {
@@ -127,124 +155,48 @@ const Update = function (req, res) {
     message: {}
   };
 
-  const newSeries = {
-    title: req.body.title,
-    year: req.body.year,
-    rate: req.body.rate,
-    channel: req.body.channel,
-    seasons: req.body.seasons
-  };
-
-  callbackList.ModelFindOneCallback(Series, objectId, function (error, series) {
+  callbackList.ModelFindOneCallback(Series, objectId, function(error, series) {
     if (error) {
-      response.status = 500;
-      response.message = error;
-      res.status(response.status).json(response.message);
-      return;
+      return handler.handlesError(res, error);
     }
     else if (null === series) {
       return handler.handleNotFound(res);
     }
     else {
-      series.title = newSeries.title;
-      series.year = newSeries.year;
-      series.rate = newSeries.rate;
-      series.channel = newSeries.channel;
-      series.seasons = newSeries.seasons;
-
-      callbackList.ModelSaveCallback(series, function (error, series) {
-
-        if (error) {
-          response.status = 500;
-          response.message = error;
-        }
-        else if (null === series) {
-          return handler.handleNotFound(res);
-        }
-        else {
-          response.status = 200;
-          response.message = series;
-        }
-
-        return handler.handleResponse(res, response);
-
-      });
+      updateFillingCallback(series, req);
+      _ModelSave(series, res, response);
 
     }
-
-
 
   });
 }
 
-const Patch = function (req, res) {
-  let objectId = req.params.seriesID;
+const FullUpdate = function(req, res) {
+  _update(req, res, _fillingFullUpdate);
+}
 
-  let response = {
-    status: 200,
-    message: {}
-  };
+const _ModelSave = function(series, res, response) {
+  callbackList.ModelSaveCallback(series, function(error, series) {
 
-  const newSeries = {
-    title: req.body.title,
-    year: req.body.year,
-    rate: req.body.rate,
-    channel: req.body.channel,
-    seasons: req.body.seasons
-  };
-
-  callbackList.ModelFindOneCallback(Series, objectId, function (error, series) {
     if (error) {
       response.status = 500;
       response.message = error;
-      res.status(response.status).json(response.message);
-      return;
     }
     else if (null === series) {
       return handler.handleNotFound(res);
     }
     else {
-      if(undefined != req.body.title) {
-        series.title = req.body.title;
-      }
-      if(undefined != req.body.year) {
-        series.year = req.body.year;
-      }
-      if(undefined != req.body.rate) {
-        series.rate = req.body.rate;
-      }
-      if(undefined != req.body.channel) {
-        series.channel = req.body.channel;
-      }
-      if(undefined != req.body.seasons) {
-        if(req.body.seasons.length > 0) {
-          series.seasons = req.body.seasons;
-        }
-      }
-      
-      callbackList.ModelSaveCallback(series, function (error, series) {
-
-        if (error) {
-          response.status = 500;
-          response.message = error;
-        }
-        else if (null === series) {
-          return handler.handleNotFound(res);
-        }
-        else {
-          response.status = 200;
-          response.message = series;
-        }
-
-        return handler.handleResponse(res, response);
-
-      });
-
+      response.status = 200;
+      response.message = series;
     }
 
-
+    return handler.handleResponse(res, response);
 
   });
+}
+
+const PartialUpdate = function(req, res) {
+  _update(req, res, _parialUpdate);
 }
 
 
@@ -253,6 +205,6 @@ module.exports = {
   Add,
   Find,
   Delete,
-  Update,
-  Patch
+  FullUpdate,
+  PartialUpdate
 }
