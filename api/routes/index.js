@@ -10,8 +10,8 @@ router.route("/series")
 router.route("/series/:seriesID")
   .get(seriesController.Find)
   .delete(seriesController.Delete)
-  .put(seriesController.Update)
-  .patch(seriesController.Patch);
+  .put(seriesController.FullUpdate)
+  .patch(seriesController.PartialUpdate);
 
 router.route("/series/:seriesID/seasons")
   .get(seasonController.GetAll)
