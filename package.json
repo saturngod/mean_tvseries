@@ -1,17 +1,21 @@
 {
   "name": "tvseries",
   "version": "1.0.0",
-  "description": "TV series projects",
+  "description": "TV Series List App",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "startBackend": "node index.js",
+    "startFrontend": "cd public/angular-app/src/ && npm start",
+    "start" : "npm run startBackend | npm run startFrontend",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Htain Lin Shwe",
+  "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.1.3",
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.1.4",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.2.2"
   }
 }

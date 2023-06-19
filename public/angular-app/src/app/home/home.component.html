@@ -1,0 +1,50 @@
+<div class="container mainbody">
+  <div class="row mt-5">
+    <div class="col-auto" *ngFor="let currentSeries of series">
+
+      <div class="card mb-4" style="width: 15rem;height: 30rem;">
+        <a href="#" routerLink="/series/{{currentSeries._id}}">
+          <img src="{{currentSeries.poster}}" class="card-img-top">
+          <div class="card-body">
+            <app-start-rating [rate]="currentSeries.rate"></app-start-rating> ({{currentSeries.rate}}/10)
+            <h5 class="card-title mt-2 txt-small">{{currentSeries.title}} <span class="date">({{currentSeries.first_air_date | date:'y'}})</span>
+            </h5>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-2">
+    
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-end">
+        
+        <li class="page-item disabled" *ngIf="isFirstPage">
+          
+            <a class="page-link">Previous</a>
+
+        </li>
+
+        <li class="page-item" *ngIf="!isFirstPage">
+          
+          <a class="page-link" routerLink="/page/{{currentpage -1}}">Previous</a>
+
+        </li>
+        
+        <li class="page-item" *ngFor="let pg of pagesData">
+          <a class="page-link active" *ngIf="isActivePage(pg)">{{pg}}</a>
+          <a class="page-link" routerLink="/page/{{pg}}" *ngIf="!isActivePage(pg)">{{pg}}</a>
+          
+        </li>
+
+        <li class="page-item" *ngIf="isLastPage">
+          <a class="page-link">Next</a>
+        </li>
+
+        <li class="page-item" *ngIf="!isLastPage">
+          <a class="page-link" routerLink="/page/{{currentpage + 1}}">Next</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

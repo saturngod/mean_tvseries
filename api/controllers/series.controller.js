@@ -1,210 +1,194 @@
-require("../data/series-model");
-const mongoose = require("mongoose");
-const Series = mongoose.model(process.env.SERIE_MODEL);
-const callbackList = require("../helpers/callback.list");
-const handler = require("../helpers/handler");
+const handler = require("../../helpers/handler");
+const seriesRepo = require("../repos/series-repo");
 
-let offset = process.env.DEFAULT_OFFSET;
-let count = process.env.DEFAULT_COUNT;
-
-const GetAll = function(req, res) {
-  console.log("GetAll");
-  let response = {
-    status: 200,
-    message: {}
-  };
-
-  if (null != req.params.offset) {
-    offset = parseInt(req.params.offset);
-  }
-  if (null != req.params.count) {
-    count = parseInt(req.params.count);
-  }
-
-  if (count > process.env.DEFAULT_MAX_COUNT) {
-
-    response.status = 400;
-    response.message = { error: process.env.OVER_LIMIT_TEXT };
-
-  }
-  else {
-    callbackList.ModelFindAllCallback(Series, offset, count, function(error, series) {
-      if (error) {
-        return handler.handlesError(res, error);
-      }
-      else if (series.length == 0) {
-        return handler.handleNotFound(res);
-      }
-      else {
-        response.status = 200;
-        response.message = series;
-      }
-
-      return handler.handleResponse(res, response);
-    });
-  }
+const _getSeriesId = function(req) {
+  return seriesRepo.getSeriesIdFromRequest(req);
 }
 
-const Add = function(req, res) {
+const _getQueryData = function(req) {
 
-  let response = {
-    status: 200,
-    message: {}
-  };
+  let offset = process.env.DEFAULT_OFFSET;
+  let count = process.env.DEFAULT_COUNT;
 
-  callbackList.ModelAddCallback(Series, req.body, function(error, series) {
-    if (error) {
-      response.status = 500;
-      response.message = { error: error };
-    }
-    else if (series.length == 0) {
-      return handler.handleNotFound(res);
+
+  if (null != req.query.count) {
+    count = parseInt(req.query.count);
+  }
+
+  if (null != req.query.page) {
+    let page = parseInt(req.query.page);
+    offset = count * (page - 1);
+  }
+  return new Promise((resolve, reject) => {
+    if (parseInt(count) > parseInt(process.env.DEFAULT_MAX_COUNT)) {
+
+      reject(process.env.OVER_LIMIT_TEXT);
     }
     else {
-      response.status = 200;
-      response.message = series;
+      resolve({
+        "offset": offset,
+        "count": count
+      });
     }
-    return handler.handleResponse(res, response);
-  })
-}
-
-const Find = function(req, res) {
-  let objectId = req.params.seriesID;
-
-  let response = {
-    status: 200,
-    message: {}
-  };
-
-  callbackList.ModelFindOneCallback(Series, objectId, function(error, series) {
-    if (error) {
-      response.status = 500;
-      response.message = error;
-    }
-    else if (null === series) {
-      return handler.handleNotFound(res);
-    }
-    else {
-      response.status = 200;
-      response.message = series;
-    }
-    return handler.handleResponse(res, response);
   });
 }
 
-const Delete = function(req, res) {
+const _findSeries = function(queryString) {
+  return seriesRepo.findSeries({}, queryString.offset, queryString.count);
+}
 
-  let objectId = req.params.seriesID;
+const _pageSeries = function() {
+  return seriesRepo.countSeries();
+}
 
+const _response = function(res, series) {
   let response = {
     status: 200,
-    message: {}
-  };
+    message: series
+  }
+  return handler.handleResponse(res, response);
+}
 
-  callbackList.ModelDeleteCallback(Series, objectId, function(error, deletedSeries) {
+const _handleErrorResponse = function(res, errorObject) {
+  if (errorObject.status) {
+    return handler.handleError(res, errorObject.error, errorObject.status);
+  }
+  return handler.handleError(res, errorObject);
+}
 
-    if (error) {
-      response.status = 500;
-      response.message = error;
-    }
-    else if (null === deletedSeries) {
-      return handler.handleNotFound(res);
+const _seriesValidation = function(newSeries) {
+  return seriesRepo.validateSeries(newSeries);
+}
+
+const _addSeries = function(newSeries) {
+  return seriesRepo.addSeries(newSeries);
+}
+
+const _findSeriesById = function(seriesID) {
+  return seriesRepo.findSeriesById(seriesID);
+}
+
+const _deleteOneSeries = function(seriesID) {
+  return seriesRepo.deleteSeriesById(seriesID);
+}
+
+const _validateIsExist = function(series) {
+  return new Promise((resolve, reject) => {
+    if (null === series) {
+      reject({ "error": process.env.RESOURCE_NOT_FOUND_TEXT, "status": 404 })
     }
     else {
-      response.status = 200;
-      response.message = deletedSeries;
+      resolve(series);
     }
-    res.status(response.status).json(response.message);
   });
+}
 
+const _findAndUpdate = function(seriesID, series) {
+  return seriesRepo.findSeriesByIdAndUpdate(seriesID, series);
+}
+
+const _replaceSeriesById = function(seriesID, newSeries) {
+  return seriesRepo.findSeriesByIdAndReplace(seriesID, newSeries);
+}
+
+const findAll = function(req, res) {
+  _getQueryData(req)
+    .then((queryData) => _findSeries(queryData))
+    .then((series) => _response(res, series))
+    .catch((error) => _handleErrorResponse(res, error));
+}
+
+const add = function(req, res) {
+  _seriesValidation(req.body)
+    .then((newSeries) => _addSeries(newSeries))
+    .then((series) => _response(res, series))
+    .catch((error) => _handleErrorResponse(res, error));
+}
+
+const findById = function(req, res) {
+  const seriesID = _getSeriesId(req);
+  _findSeriesById(seriesID)
+    .then((series) => _validateIsExist(series))
+    .then((series) => _response(res, series))
+    .catch((error) => _handleErrorResponse(res, error));
 }
 
 
-const _fullUpdate = function(series, req) {
-  series.title = req.body.title;
-  series.year = req.body.year;
-  series.rate = req.body.rate;
-  series.channel = req.body.channel;
-  series.seasons = req.body.seasons;
+
+const deleteById = function(req, res) {
+  const seriesID = _getSeriesId(req);
+  _deleteOneSeries(seriesID)
+    .then((series) => _validateIsExist(series))
+    .then((series) => _response(res, series))
+    .catch((error) => _handleErrorResponse(res, error));
 }
 
-const _parialUpdate = function(series, req) {
-  if (req.body.title) {
-    series.title = req.body.title;
-  }
-  if (req.body.year) {
-    series.year = req.body.year;
-  }
-  if (req.body.rate) {
-    series.rate = req.body.rate;
-  }
-  if (req.body.channel) {
-    series.channel = req.body.channel;
-  }
-  if (req.body.seasons) {
-    series.seasons = req.body.seasons;
-  }
+const partialUpdate = function(req, res) {
+  const seriesID = _getSeriesId(req);
+  _findAndUpdate(seriesID, req.body)
+    .then((series) => _response(res, series))
+    .catch((error) => _handleErrorResponse(res, error));
 }
 
-const _update = function(req, res, updateFillingCallback) {
+const fullUpdate = function(req, res) {
+  const seriesID = _getSeriesId(req);
+  _replaceSeriesById(seriesID, req.body)
+    .then((series) => _response(res, series))
+    .catch((error) => _handleErrorResponse(res, error))
+}
 
-  let objectId = req.params.seriesID;
+const _pageInfo = function(req, totalDocuments) {
+  let currentPage = 1;
+  let count = parseInt(process.env.DEFAULT_COUNT);
+  let first = false;
+  let last = false;
+
+  if (req.query.page) {
+    currentPage = req.query.page;
+  }
+  if (req.query.count) {
+    count = req.query.count;
+  }
+
+  let totalPage = Math.ceil(totalDocuments / count);
+  if (currentPage == 1) {
+    first = true;
+  }
+  else if (currentPage == totalPage) {
+    last = true;
+  }
 
   let response = {
-    status: 200,
-    message: {}
-  };
+    totalPage,
+    first,
+    last
+  }
 
-  callbackList.ModelFindOneCallback(Series, objectId, function(error, series) {
-    if (error) {
-      return handler.handlesError(res, error);
-    }
-    else if (null === series) {
-      return handler.handleNotFound(res);
-    }
-    else {
-      updateFillingCallback(series, req);
-      _ModelSave(series, res, response);
-
-    }
-
+  return new Promise((resolve, reject) => {
+    resolve(response);
   });
+
 }
 
-const FullUpdate = function(req, res) {
-  _update(req, res, _fillingFullUpdate);
+const getAllPages = function(req, res) {
+  _pageSeries()
+    .then((count) => _pageInfo(req, count))
+    .then((pageInfo) => _response(res, pageInfo))
+    .catch((error) => _handleErrorResponse(res, error));
 }
 
-const _ModelSave = function(series, res, response) {
-  callbackList.ModelSaveCallback(series, function(error, series) {
+const search = function(req, res) {
 
-    if (error) {
-      response.status = 500;
-      response.message = error;
-    }
-    else if (null === series) {
-      return handler.handleNotFound(res);
-    }
-    else {
-      response.status = 200;
-      response.message = series;
-    }
-
-    return handler.handleResponse(res, response);
-
-  });
-}
-
-const PartialUpdate = function(req, res) {
-  _update(req, res, _parialUpdate);
 }
 
 
 module.exports = {
-  GetAll,
-  Add,
-  Find,
-  Delete,
-  FullUpdate,
-  PartialUpdate
+  findAll,
+  add,
+  findById,
+  deleteById,
+  partialUpdate,
+  fullUpdate,
+  getAllPages,
+  search
 }

@@ -1,37 +1,88 @@
-const mongoose= require("mongoose");
+const mongoose = require("mongoose");
 
-
-const EpisodeSchema= mongoose.Schema({
-    name: {
-        type: String,
-        required: true
+const episodeSchema = mongoose.Schema({
+    "episode_number": {
+        "type": "Number"
     },
-    description: String
+    "name": {
+        "type": "String"
+    },
+    "overview": {
+        "type": "String"
+    },
+    "image": {
+        "type": "String"
+    }
 });
 
-const SeasonSchema= mongoose.Schema({
-    name: {
-        type: String,
-        required: true
+const seasonSchema = mongoose.Schema({
+
+    "air_date": {
+        "type": "Date"
     },
-    year: Number,
-    episodes: [EpisodeSchema]
+    "name": {
+        "type": "String"
+    },
+    "overview": {
+        "type": "String"
+    },
+    "poster_path": {
+        "type": "String"
+    },
+    "season_number": {
+        "type": "Number"
+    },
+    "episodes": {
+        "type":[episodeSchema]
+        
+    }
 });
 
-const seriesSchema= mongoose.Schema({
-    title: {
-        type: String,
-        required: true
+const seriesSchema = mongoose.Schema({
+
+    "title": {
+        "type": "String"
     },
-    year: Number,
-    rate: {
-        type: Number,
-        min: 1,
-        max: 5,
-        default: 1
+    "first_air_date": {
+        "type": "Date"
     },
-    channel: String,
-    seasons: [SeasonSchema],
+    "last_air_date": {
+        "type": "Date"
+    },
+    "description": {
+        "type": "String"
+    },
+    "popularity": {
+        "type": "Number"
+    },
+    "number_of_seasons": {
+        "type": "Number"
+    },
+    "production": {
+        "type": "String"
+    },
+    "origin_country": {
+        "type":"String"
+    },
+    "rate": {
+        "type": "Number"
+    },
+    "backdrop": {
+        "type": "String"
+    },
+    "poster": {
+        "type": "String"
+    },
+    "genres": {
+        "type": [
+            "String"
+        ]
+    },
+    "seasons": {
+        "type": [
+            seasonSchema
+        ]
+    }
 });
 
-mongoose.model(process.env.SERIE_MODEL,seriesSchema,process.env.SERIES_COLLECTION);
+mongoose.model(process.env.SERIES_MODEL, seriesSchema, process.env.SERIES_COLLECTION);

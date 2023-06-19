@@ -1,28 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const seriesController = require("../controllers/series.controller");
-const seasonController = require("../controllers/season.controller");
+const seriesRoute = require("./series");
+const seasonRoute = require("./season");
+const userRoute = require("./user");
 
-router.route("/series")
-  .get(seriesController.GetAll)
-  .post(seriesController.Add);
-
-router.route("/series/:seriesID")
-  .get(seriesController.Find)
-  .delete(seriesController.Delete)
-  .put(seriesController.FullUpdate)
-  .patch(seriesController.PartialUpdate);
-
-router.route("/series/:seriesID/seasons")
-  .get(seasonController.GetAll)
-  .delete(seasonController.DeleteAll)
-  .post(seasonController.Add);
-  
-
-router.route("/series/:seriesID/seasons/:seasonID")
-  .get(seasonController.Find)
-  .delete(seasonController.DeleteSeasonIndex)
-  .put(seasonController.Update)
-  .patch(seasonController.Patch);
+router.use("/series", seriesRoute);
+router.use("/series/:seriesID/seasons", seasonRoute);
+router.use("/user", userRoute);
 
 module.exports = router;

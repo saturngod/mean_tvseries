@@ -1,0 +1,35 @@
+<div class="container mainbody">
+    <div class="row mt-5">
+        <h1>Welcome, <b>{{welcomeName}}</b></h1>
+    </div>
+    <h4 class="mt-4">Update Profile</h4>
+    <div class="text-success">{{successMessage}}</div>
+    <div class="text-danger">{{errorMessage}}</div>
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+        <div class="row mt-4">
+            <div class="col-auto">
+                <label class="form-label">Name</label>
+                <input type="text" placeholder="Name" name="name" class="form-control" formControlName="name">
+            </div>
+        </div>
+        <div class="row mt-4">
+            <label class="form-label">Password</label>
+            <div class="col-2">
+                <input type="password" placeholder="Current Password" class="form-control" formControlName="currentPassword">
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-2">
+                <input type="password" placeholder="New Password" class="form-control" formControlName="newPassword">
+            </div>
+            <div class="col-2">
+                <input type="password" placeholder="Confirm Password" class="form-control" formControlName="confirmPassword">
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col">
+                <button type="submit" class="btn btn-outline-primary">Update</button>
+            </div>
+        </div>
+    </form>
+</div>

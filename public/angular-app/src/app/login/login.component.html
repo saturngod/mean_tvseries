@@ -1,0 +1,26 @@
+<div class="login mb-4" *ngIf="!isLogin">
+    <h6 class="mb-4">Please Enter Username and Password</h6>
+    <div class="text-light bg-danger text-center">{{message}}</div>
+    <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+            
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username" required [(ngModel)]="username">
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required [(ngModel)]="password">
+            </div>
+            
+            <button type="submit" class="btn btn-outline-primary">Login</button>
+
+    </form>
+</div>
+
+<div class="welcome" *ngIf="isLogin">
+    Welcome , {{name}}
+    <div>
+        <button (click)="logout()" type="button" class="btn btn-danger">Logout</button>
+    </div>
+</div>

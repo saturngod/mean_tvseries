@@ -1,7 +1,0 @@
-{
-    "signal": "SIGHUP",
-    "ignore": ["public/**"],
-    "env": {
-        "NODE_ENV": "development"
-    }
-}

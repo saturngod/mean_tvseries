@@ -1,0 +1,52 @@
+<div style="background-image: url('{{series.backdrop}}');" class="background-container">
+    <div class="background-inside">
+        <div class="container mainbody">
+            <div class="row">
+                <div class="col-2">
+                    <img src="{{series.poster}}" width="200">
+                </div>
+                <div class="col-10 movie-info">
+                    <h1 class="title">{{series.title}} <span class="light">({{series.first_air_date | date:
+                            'y'}})</span></h1>
+                    <div class="category">{{categories}}</div>
+                    <div class="country">Country: <b>{{series.origin_country}}</b></div>
+                    <div class="overview">Overview</div>
+                    <div class="description">{{series.description}}</div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mainbody mt-3">
+    <div class="row">
+        <aside class="col-2">
+            <ul class="list-group">
+                <a *ngFor="let season of series.seasons" (click)="changeSeason(season)">
+                    <li class="list-group-item active" *ngIf="activeList(season.name)">{{season.name}}</li>
+                    <li class="list-group-item " *ngIf="!activeList(season.name)">{{season.name}}</li>
+                </a>
+            </ul>
+        </aside>
+        <main class="col-10">
+            <h5>{{selectedSeason.name}} Season</h5>
+            <br/>
+            <div class="card mb-3 episodes" *ngFor="let episode of selectedSeason.episodes">
+                <div class="row g-0">
+                    <div class="col-md-2">
+                        <img src="{{getEpisodeImage(episode.image)}}" class="img-fluid rounded-start">
+                    </div>
+                    <div class="col-md-10">
+                        <div class="card-body pt-0">
+                            <h5 class="card-title">{{episode.name}}</h5>
+                            <p class="card-text">{{episode.overview}}</p>
+                            <p class="card-text"><small class="text-body-secondary">Episode:
+                                    #{{episode.episode_number}}</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
