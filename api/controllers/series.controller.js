@@ -1,8 +1,8 @@
 const handler = require("../../helpers/handler");
-const seriesRepo = require("../repos/series-repo");
+const seriesService = require("../services/series-service");
 
 const _getSeriesId = function(req) {
-  return seriesRepo.getSeriesIdFromRequest(req);
+  return seriesService.getSeriesIdFromRequest(req);
 }
 
 const _getQueryData = function(req) {
@@ -34,11 +34,11 @@ const _getQueryData = function(req) {
 }
 
 const _findSeries = function(queryString) {
-  return seriesRepo.findSeries({}, queryString.offset, queryString.count);
+  return seriesService.findSeries({}, queryString.offset, queryString.count);
 }
 
 const _pageSeries = function() {
-  return seriesRepo.countSeries();
+  return seriesService.countSeries();
 }
 
 const _response = function(res, series) {
@@ -57,19 +57,19 @@ const _handleErrorResponse = function(res, errorObject) {
 }
 
 const _seriesValidation = function(newSeries) {
-  return seriesRepo.validateSeries(newSeries);
+  return seriesService.validateSeries(newSeries);
 }
 
 const _addSeries = function(newSeries) {
-  return seriesRepo.addSeries(newSeries);
+  return seriesService.addSeries(newSeries);
 }
 
 const _findSeriesById = function(seriesID) {
-  return seriesRepo.findSeriesById(seriesID);
+  return seriesService.findSeriesById(seriesID);
 }
 
 const _deleteOneSeries = function(seriesID) {
-  return seriesRepo.deleteSeriesById(seriesID);
+  return seriesService.deleteSeriesById(seriesID);
 }
 
 const _validateIsExist = function(series) {
@@ -84,11 +84,11 @@ const _validateIsExist = function(series) {
 }
 
 const _findAndUpdate = function(seriesID, series) {
-  return seriesRepo.findSeriesByIdAndUpdate(seriesID, series);
+  return seriesService.findSeriesByIdAndUpdate(seriesID, series);
 }
 
 const _replaceSeriesById = function(seriesID, newSeries) {
-  return seriesRepo.findSeriesByIdAndReplace(seriesID, newSeries);
+  return seriesService.findSeriesByIdAndReplace(seriesID, newSeries);
 }
 
 const findAll = function(req, res) {

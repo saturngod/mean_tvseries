@@ -1,2 +1,5 @@
 node_modules
-.DS_Store
+public/angular-app/node_modules
+public/angular-app/.angular
+public/angular-app/.vscode
+*.DS_Store

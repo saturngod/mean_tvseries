@@ -1,6 +1,6 @@
 const handler = require("../../helpers/handler")
-const seriesRepo = require("../repos/series-repo")
-const seasonRepo = require("../repos/season-repo");
+const seriesService = require("../services/series-service")
+const seasonService = require("../services/season-service");
 
 const _handleErrorResponse = function (res, errorObject) {
     if (errorObject.status) {
@@ -18,21 +18,21 @@ const _responseSeason = function (res, season) {
 }
 
 const _getSeriesId = function (req) {
-    return seriesRepo.getSeriesIdFromRequest(req);
+    return seriesService.getSeriesIdFromRequest(req);
 }
 
 const _findBySeriesId = function (seriesID) {
-    return seriesRepo.findSeriesById(seriesID);
+    return seriesService.findSeriesById(seriesID);
 }
 
 const _getAllSeasonOfSeries = function (series) {
-    return seasonRepo.getAllSeasonOfSeries(series);
+    return seasonService.getAllSeasonOfSeries(series);
 }
 
 
 
 const _findBySeasonId = function (series, seasonID) {
-    return seasonRepo.findBySeasonId(series, seasonID);
+    return seasonService.findBySeasonId(series, seasonID);
 }
 
 
@@ -46,7 +46,7 @@ const findAll = function (req, res) {
 
 
 const _getSeasonIDFromRequest = function (req) {
-    return seasonRepo.getSeasonIdFromRequest(req);
+    return seasonService.getSeasonIdFromRequest(req);
 }
 
 const findById = function (req, res) {

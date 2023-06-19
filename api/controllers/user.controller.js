@@ -1,11 +1,11 @@
 const bcrypt = require("bcrypt");
-const userRepo = require("../repos/user-repo");
+const userService = require("../services/user-service");
 const handler = require("../../helpers/handler");
 const jwt = require("jsonwebtoken");
 const utils = require("util");
 
 const _getUserWithUsername = function(username) {
-  return userRepo.getUserWithUsername(username);
+  return userService.getUserWithUsername(username);
 }
 
 const _validateWithPassword = function(userDB, password) {
@@ -110,7 +110,7 @@ const login = function(req, res) {
 
 const _updatePassword = function(user, password) {
   if (password != "") {
-    return userRepo.updatePassword(user, password);
+    return userService.updatePassword(user, password);
   }
   else {
     return new Promise((resolve, reject) => {
@@ -168,7 +168,7 @@ const partialUpdate = function(req, res) {
 
 
 const _registerAccount = function(newUser) {
-  return userRepo.createUser(newUser);
+  return userService.createUser(newUser);
 }
 
 const register = function(req, res) {
