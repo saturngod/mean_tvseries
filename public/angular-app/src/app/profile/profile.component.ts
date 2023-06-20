@@ -5,6 +5,7 @@ import { AuthenticationService } from '../authentication.service';
 import { UserDataService } from '../user-data.service';
 import { User } from '../models/user';
 import { LoginToken } from '../models/login-token';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -39,11 +40,11 @@ export class ProfileComponent implements OnInit {
 
   _passwordFormChecking(): boolean {
     if(this.profileForm.value.newPassword == "") {
-      this.errorMessage = "New Password is required";
+      this.errorMessage = environment.MESSAGE_NEW_PASSWORD_REQUIRED;
       return false;
     }
     else if(this.profileForm.value.newPassword != this.profileForm.value.confirmPassword) {
-      this.errorMessage = "New Password and Confirm password must same";
+      this.errorMessage = environment.MESSAGE_NEW_PASSWORD_CONFIRM_SAME;
       return false;
     }
     return true;
@@ -51,7 +52,7 @@ export class ProfileComponent implements OnInit {
 
   _usernameFormChecking(): boolean {
     if(this.profileForm.value.name == "") {
-      this.errorMessage = "Name cannot be empty";
+      this.errorMessage = environment.MESSAGE_NAME_NOT_EMPTY;
       return false;
     }
     return true;
@@ -85,12 +86,12 @@ export class ProfileComponent implements OnInit {
     this._userServie.update(user).subscribe({
       next: (loginToken:LoginToken) => {
         this._authService.saveLoginToken(loginToken.token);
-        this.successMessage = "Success";
+        this.successMessage = environment.MESSAGE_SUCCESS;
         this.errorMessage = "";
       },
       error: () => {
         this.successMessage = "";
-        this.errorMessage = "Something Wrong! Cannot update the profile";
+        this.errorMessage = environment.MESSAGE_SOMETHING_WRONG_UPDATGE_PROFILE;
       }
     })
   }

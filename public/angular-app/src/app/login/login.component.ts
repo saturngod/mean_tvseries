@@ -6,6 +6,7 @@ import { User } from '../models/user';
 import { AuthenticationService } from '../authentication.service';
 import { LoginToken } from '../models/login-token';
 import { UserDataService } from '../user-data.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -39,7 +40,7 @@ export class LoginComponent {
       },
       error: () => {
         this._authService.logout();
-        this.message= "Invalid login";
+        this.message= environment.MESSAGE_INVALID_LOGIN;
       },
       complete: () => {
 
