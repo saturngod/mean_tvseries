@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms'
 import { RouterModule } from '@angular/router';
+import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 
 import { AppComponent } from './app.component';
 import { Router } from './app.route';
@@ -12,7 +13,6 @@ import { HomeComponent } from './home/home.component';
 import { SeriesComponent } from './series/series.component';
 import { LoginComponent } from './login/login.component';
 import { StarRatingComponent } from './star-rating/star-rating.component';
-import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 import { AuthenticationInterceptor } from './authentication.interceptor';
 import { PaginationComponent } from './pagination/pagination.component';
 import { ProfileComponent } from './profile/profile.component';

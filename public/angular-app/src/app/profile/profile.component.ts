@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../authentication.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { AuthenticationService } from '../authentication.service';
 import { UserDataService } from '../user-data.service';
 import { User } from '../models/user';
 import { LoginToken } from '../models/login-token';

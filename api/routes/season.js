@@ -1,6 +1,7 @@
 const express= require("express");
-const router= express.Router();
 const seasonController= require("../controllers/season.controller")
+
+const router= express.Router();
 
 router.route("/")
     .get(seasonController.findAll);

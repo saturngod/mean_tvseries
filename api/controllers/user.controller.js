@@ -1,8 +1,10 @@
 const bcrypt = require("bcrypt");
-const userService = require("../services/user-service");
-const handler = require("../../helpers/handler");
 const jwt = require("jsonwebtoken");
 const utils = require("util");
+
+const userService = require("../services/user-service");
+const handler = require("../../helpers/handler");
+
 
 const _getUserWithUsername = function(username) {
   return userService.getUserWithUsername(username);

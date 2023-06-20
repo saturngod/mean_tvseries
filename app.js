@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use("/api",corsMW);
-
+app.use("/images",express.static("images"));
 app.use("/api",routes);
 
 const server = app.listen(process.env.PORT,function(){

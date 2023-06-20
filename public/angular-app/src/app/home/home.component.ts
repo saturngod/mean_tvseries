@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
 import { SeriesDataService } from '../series-data.service';
 import { Series } from '../models/series';
 import { PageInfo } from '../models/page-info';
-import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-home',

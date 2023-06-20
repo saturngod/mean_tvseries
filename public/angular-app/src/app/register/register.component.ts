@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
 import { UserDataService } from '../user-data.service';
 import { User } from '../models/user';
 import { LoginToken } from '../models/login-token';
 import { AuthenticationService } from '../authentication.service';
-import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-register',
