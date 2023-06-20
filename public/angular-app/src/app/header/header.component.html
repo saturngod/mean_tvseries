@@ -5,16 +5,16 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/">Home</a>
+          <a class="nav-link" href="#" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="">Home</a>
         </li>
         <li class="nav-item" *ngIf="!isLogin">
-          <a class="nav-link" href="#" routerLink="/register">Register</a>
+          <a class="nav-link" href="#" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/register">Register</a>
         </li>
         <li class="nav-item" *ngIf="!isLogin">
-          <a class="nav-link" href="#" routerLink="/login">Login</a>
+          <a class="nav-link" href="#" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/login">Login</a>
         </li>
         <li class="nav-item" *ngIf="isLogin">
-          <a class="nav-link" href="#" routerLink="/profile">Profile</a>
+          <a class="nav-link" href="#" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/profile">Profile</a>
         </li>
         <li class="nav-item"  *ngIf="isLogin">
           <button class="nav-link text-danger" (click)="logout()">Logout</button>

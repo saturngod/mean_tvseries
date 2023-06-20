@@ -7,36 +7,6 @@
     </div>
   </div>
   <div class="row mt-2">
-    
-    <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-end">
-        
-        <li class="page-item disabled" *ngIf="isFirstPage">
-          
-            <a class="page-link">Previous</a>
-
-        </li>
-
-        <li class="page-item" *ngIf="!isFirstPage">
-          
-          <a class="page-link" routerLink="/page/{{currentpage -1}}">Previous</a>
-
-        </li>
-        
-        <li class="page-item" *ngFor="let pg of pagesData">
-          <a class="page-link active" *ngIf="isActivePage(pg)">{{pg}}</a>
-          <a class="page-link" routerLink="/page/{{pg}}" *ngIf="!isActivePage(pg)">{{pg}}</a>
-          
-        </li>
-
-        <li class="page-item" *ngIf="isLastPage">
-          <a class="page-link">Next</a>
-        </li>
-
-        <li class="page-item" *ngIf="!isLastPage">
-          <a class="page-link" routerLink="/page/{{currentpage + 1}}">Next</a>
-        </li>
-      </ul>
-    </nav>
+    <app-pagination [pageInfo]="pageInfo" [page]="currentpage"></app-pagination>
   </div>
 </div>

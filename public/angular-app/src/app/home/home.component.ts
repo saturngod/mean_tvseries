@@ -13,33 +13,11 @@ export class HomeComponent implements OnInit{
 
   series: Series[] = [];
   currentpage = 1;
-  pagesData: number[] = [];
+  
 
   pageInfo: PageInfo = new PageInfo();
 
-  get isFirstPage() { return this.pageInfo.first; }
-  get isLastPage() { return this.pageInfo.last; }
   
-  
-
-   _pageData(): number[] {
-
-    let pagesToShow = [];
-    let totalPages = parseInt(this.pageInfo.totalPage);
-    let currentpage = this.currentpage;
-    // Calculate the pages to show based on the current page
-    if (currentpage === 1) {
-        pagesToShow = [1, 2, 3];
-    } else if (currentpage === totalPages) {
-        pagesToShow = [currentpage - 2, currentpage - 1, currentpage];
-    } else {
-        pagesToShow = [currentpage - 1, currentpage, currentpage + 1];
-    }
-
-    return pagesToShow;
-
-}
-
   constructor(private _seriesDataService: SeriesDataService,private _activatedRoute: ActivatedRoute) {
     _activatedRoute.params.subscribe({
       next: () => this._loadPageData()
@@ -64,14 +42,10 @@ export class HomeComponent implements OnInit{
 
   _loadPageData() {
     this.currentpage = this._getPageNumber();
-    this.pagesData = this._pageData();
     this._loadSeries();
     this._loadPageInfo();
   }
 
-  isActivePage(pageNo:number) {
-    return this.currentpage == pageNo;
-  }
 
   _loadSeries() {
     
@@ -107,7 +81,7 @@ export class HomeComponent implements OnInit{
   }
 
   next() {
-    let maxPage= parseInt(this.pageInfo.totalPage);
+    let maxPage= this.pageInfo.totalPage;
     if(this.currentpage < maxPage) {
       this.currentpage = this.currentpage + 1;
       if(this.currentpage == maxPage) {

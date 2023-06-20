@@ -1,5 +1,5 @@
 export class PageInfo {
-    #totalPage!: string;
+    #totalPage!: number;
     #first!: boolean;
     #last!: boolean;
     
@@ -9,7 +9,7 @@ export class PageInfo {
     get last() {return this.#last;}
     
 
-    set totalPage(value: string) { this.#totalPage = value;}
+    set totalPage(value: number) { this.#totalPage = value;}
     set first(value: boolean) { this.#first = value;}
     set last(value: boolean) { this.#last = value;}
 

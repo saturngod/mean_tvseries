@@ -26,11 +26,11 @@ const _getToken = function (req) {
                 resolve(authData[1]);
             }
             else {
-                reject({ "error": "invalid auth data" });
+                reject({ "error": process.env.ERR_INVALID_AUTH });
             }
         }
         else {
-            reject({ "error": "token is required" });
+            reject({ "error": process.env.ERR_TOKEN });
         }
     });
 }
@@ -41,7 +41,7 @@ const auth= function(req,res,next) {
     .then((token) => _verifyJWT(token))
     .then((jwt) => _addTokenInRequest(req,jwt))
     .then(() => next())
-    .catch(() => res.status(400).send({"error" : "Invalid token"}));
+    .catch(() => res.status(400).send({"error" : process.env.ERR_INVALID_TOKEN}));
 }
 
 module.exports = {

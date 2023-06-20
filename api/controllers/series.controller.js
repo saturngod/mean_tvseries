@@ -9,7 +9,7 @@ const _getQueryData = function(req) {
 
   let offset = process.env.DEFAULT_OFFSET;
   let count = process.env.DEFAULT_COUNT;
-
+  let query = "";
 
   if (null != req.query.count) {
     count = parseInt(req.query.count);
@@ -19,6 +19,11 @@ const _getQueryData = function(req) {
     let page = parseInt(req.query.page);
     offset = count * (page - 1);
   }
+
+  if (null != req.query.q) {
+    query = req.query.q;
+  }
+
   return new Promise((resolve, reject) => {
     if (parseInt(count) > parseInt(process.env.DEFAULT_MAX_COUNT)) {
 
@@ -27,14 +32,24 @@ const _getQueryData = function(req) {
     else {
       resolve({
         "offset": offset,
-        "count": count
+        "count": count,
+        "query": query
       });
     }
   });
 }
 
 const _findSeries = function(queryString) {
-  return seriesService.findSeries({}, queryString.offset, queryString.count);
+  let query = {}
+  if (queryString.query != "") {
+    query = {
+      "title": {
+        $regex: queryString.query,
+        $options: "i"
+      }
+    }
+  }
+  return seriesService.findSeries(query, queryString.offset, queryString.count);
 }
 
 const _pageSeries = function() {
@@ -177,10 +192,6 @@ const getAllPages = function(req, res) {
     .catch((error) => _handleErrorResponse(res, error));
 }
 
-const search = function(req, res) {
-
-}
-
 
 module.exports = {
   findAll,
@@ -189,6 +200,5 @@ module.exports = {
   deleteById,
   partialUpdate,
   fullUpdate,
-  getAllPages,
-  search
+  getAllPages
 }

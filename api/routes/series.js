@@ -8,7 +8,7 @@ router.route("/")
   .post(authController.auth, seriesController.add);
 
 router.route("/search")
-  .get(seriesController.search);
+  .get(seriesController.findAll);
 
 router.route("/pages")
   .get(seriesController.getAllPages);

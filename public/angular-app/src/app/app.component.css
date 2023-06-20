@@ -1,3 +1,16 @@
 .content-body {
-    min-height: 650px;
+    min-height: 720px;
+}
+
+@media screen and (max-height: 720px) {
+    .content-body {
+        min-height: 720px;
+    }    
+}
+
+
+@media screen and (max-height: 2000px) {
+    .content-body {
+        min-height: 1170px;
+    }    
 }

@@ -9,27 +9,27 @@ const _getUserWithUsername = function(username) {
 }
 
 const _validateWithPassword = function(userDB, password) {
-  console.log("VALIDATE WITH PASSWORD");
+  
   return new Promise((resolve, reject) => {
     if (password == "") {
-      reject({ "error": "invalid password" });
+      reject({ "error": process.env.ERR_INVALID_PASSWORD });
     }
     else {
       bcrypt.compare(password, userDB.password).then((login) => {
 
         if (login) {
-          console.log("LOGIN SUCCESS PASSWORD");
+          
           resolve(userDB);
         }
         else {
-          console.log("LOGIN FAIL PASSWORD");
-          reject({ "error": "invalid request" });
+          
+          reject({ "error": process.env.ERR_INVALID_REQUEST });
         }
 
       })
         .catch((error) => {
           console.log(error);
-          reject({ "error": "invalid request" });
+          reject({ "error": process.env.ERR_INVALID_REQUEST });
         });
     }
   })
@@ -54,7 +54,7 @@ const _validateLoginRequest = function(req) {
       resolve();
     }
     else {
-      rejects({ "error": "invalid request" });
+      rejects({ "error": process.env.ERR_INVALID_REQUEST });
     }
   });
 
@@ -63,7 +63,7 @@ const _validateLoginRequest = function(req) {
 const _validUserInfo = function(req) {
   return new Promise((resolve, rejects) => {
     if (null != req.body.password && (null == req.body.newPassword || "" == req.body.newPassword.trim())) {
-      rejects({ "error": "invalid request" });
+      rejects({ "error": process.env.ERR_INVALID_REQUEST });
     }
     resolve();
   });
@@ -73,7 +73,7 @@ const _validUserNameRequest = function(req) {
   return new Promise((resolve, rejects) => {
 
     if (null == req.body.name) {
-      rejects({ "error": "invalid request" });
+      rejects({ "error": process.env.ERR_INVALID_REQUEST });
     }
     resolve();
 
@@ -86,14 +86,14 @@ const _validateRegisterRequest = function(req) {
       resolve();
     }
     else {
-      rejects({ "error": "register failed. Missing parameters." });
+      rejects({ "error": process.env.ERR_MISSING_PARAMETER });
     }
   })
 
 }
 
 const _generate_token = function(username, name) {
-  console.log("GENERATE TOKEN");
+  
   const jwtSign = utils.promisify(jwt.sign)
   return jwtSign({ username, name }, process.env.JWT_KEY, { "expiresIn": 50000 })
 }
@@ -114,7 +114,7 @@ const _updatePassword = function(user, password) {
   }
   else {
     return new Promise((resolve, reject) => {
-      reject({ "error": "cannot update the password" });
+      reject({ "error": process.env.ERR_CANNOT_UPDATE_PASSWORD });
     })
   }
 }
@@ -165,7 +165,6 @@ const partialUpdate = function(req, res) {
     return _handleErrorResponse(res, "failed");
   }
 }
-
 
 const _registerAccount = function(newUser) {
   return userService.createUser(newUser);

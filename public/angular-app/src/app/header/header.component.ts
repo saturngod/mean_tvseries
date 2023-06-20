@@ -34,7 +34,6 @@ export class HeaderComponent implements OnInit{
   search(form:NgForm) {
     
     if(this.query.trim() != "") {
-      console.log("QUERY FOR",this.query.trim())
       this._route.navigate(["search"], {queryParams: {q:this.query.trim()}})
     }
   }
