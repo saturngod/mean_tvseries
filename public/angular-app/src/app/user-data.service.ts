@@ -25,6 +25,7 @@ export class UserDataService {
   update(user: User): Observable<LoginToken> {
     return this._http.patch<LoginToken>(this._baseUrl + "/profile", user.toJSON());
   }
+  
 
 
 }

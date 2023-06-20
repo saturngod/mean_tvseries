@@ -1,0 +1,22 @@
+.movie-card {
+    width: 15rem;
+    height: 30rem;
+}
+
+.rating {
+    font-size: 90%;
+}
+
+@media screen and (max-width: 1200px) {
+    .movie-card {
+        width: 10rem;
+        height: 25rem;
+    }
+    .rating {
+        font-size: 85%;
+        margin-bottom: 5px;
+    }
+    .card-title {
+        font-size: 100%;
+    }
+ }

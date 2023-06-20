@@ -2,10 +2,10 @@
     <div class="background-inside">
         <div class="container mainbody">
             <div class="row">
-                <div class="col-2">
+                <div class="col-xl-2 col-md-3">
                     <img src="{{series.poster}}" width="200">
                 </div>
-                <div class="col-10 movie-info">
+                <div class="col-xl-10 col-md-9 movie-info">
                     <h1 class="title">{{series.title}} <span class="light">({{series.first_air_date | date:
                             'y'}})</span></h1>
                     <div class="category">{{categories}}</div>
@@ -15,12 +15,30 @@
                     
                 </div>
             </div>
+            <div class="action">
+                
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteBox">
+                        <i class="bi bi-trash"></i>
+                        Delete
+                    </button>
+                
+            </div>
+            
         </div>
     </div>
 </div>
 
-<div class="container mainbody mt-3">
-    <div class="row">
+<app-modal modelId="deleteBox" 
+header="Do you want to delete ?" 
+body="It will delete from the database and cannot restore."
+confimClass="btn-danger"
+confirmText="Delete"
+(confirmClick)="confirmDelete()"
+></app-modal>
+
+<div class="container mainbody">
+
+    <div class="row mt-3">
         <aside class="col-2">
             <ul class="list-group">
                 <a *ngFor="let season of series.seasons" (click)="changeSeason(season)">

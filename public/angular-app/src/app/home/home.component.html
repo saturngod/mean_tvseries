@@ -2,16 +2,8 @@
   <div class="row mt-5">
     <div class="col-auto" *ngFor="let currentSeries of series">
 
-      <div class="card mb-4" style="width: 15rem;height: 30rem;">
-        <a href="#" routerLink="/series/{{currentSeries._id}}">
-          <img src="{{currentSeries.poster}}" class="card-img-top">
-          <div class="card-body">
-            <app-start-rating [rate]="currentSeries.rate"></app-start-rating> ({{currentSeries.rate}}/10)
-            <h5 class="card-title mt-2 txt-small">{{currentSeries.title}} <span class="date">({{currentSeries.first_air_date | date:'y'}})</span>
-            </h5>
-          </div>
-        </a>
-      </div>
+      <app-cover [series]="currentSeries"></app-cover>
+      
     </div>
   </div>
   <div class="row mt-2">

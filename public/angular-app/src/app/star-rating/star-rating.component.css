@@ -1,0 +1,13 @@
+.star {
+    font-size: 80%;
+    color: black;
+}
+.star-active {
+    color: rgb(234, 187, 0);
+}
+
+@media screen and (max-width: 1200px) {
+    .star {
+        font-size: 75%;
+    }
+}

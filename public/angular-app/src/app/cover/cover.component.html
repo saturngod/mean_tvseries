@@ -1,0 +1,10 @@
+<div class="card mb-4 movie-card">
+    <a href="#" routerLink="/series/{{series._id}}">
+      <img src="{{series.poster}}" class="card-img-top">
+      <div class="card-body">
+        <app-star-rating [rate]="series.rate"></app-star-rating> &nbsp;<span class="rating">({{series.rate}}/10)</span>
+        <h5 class="card-title mt-2 txt-small">{{series.title}} <span class="date">({{series.first_air_date | date:'y'}})</span>
+        </h5>
+      </div>
+    </a>
+  </div>

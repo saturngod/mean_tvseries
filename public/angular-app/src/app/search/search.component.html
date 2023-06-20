@@ -1,0 +1,15 @@
+
+<div class="container mainbody">
+    <div class="row mt-1">
+        <div class="col-auto">
+            <h2>Search Result for {{query}}</h2>
+        </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-auto" *ngFor="let currentSeries of series">
+  
+        <app-cover [series]="currentSeries"></app-cover>
+        
+      </div>
+    </div>
+</div>

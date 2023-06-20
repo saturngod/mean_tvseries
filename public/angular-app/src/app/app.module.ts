@@ -11,12 +11,15 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { SeriesComponent } from './series/series.component';
 import { LoginComponent } from './login/login.component';
-import { StartRatingComponent } from './start-rating/start-rating.component';
+import { StarRatingComponent } from './star-rating/star-rating.component';
 import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 import { AuthenticationInterceptor } from './authentication.interceptor';
 import { PaginationComponent } from './pagination/pagination.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
+import { SearchComponent } from './search/search.component';
+import { ModalComponent } from './modal/modal.component';
+import { CoverComponent } from './cover/cover.component';
 
 @NgModule({
   declarations: [
@@ -27,9 +30,12 @@ import { RegisterComponent } from './register/register.component';
     SeriesComponent,
     LoginComponent,
     RegisterComponent,
-    StartRatingComponent,
+    StarRatingComponent,
     PaginationComponent,
-    ProfileComponent
+    ProfileComponent,
+    SearchComponent,
+    ModalComponent,
+    CoverComponent
   ],
   imports: [
     BrowserModule,

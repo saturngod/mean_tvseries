@@ -22,6 +22,11 @@ export class SeriesDataService {
     return this._http.get<[Series]>(this._baseUrl + "?page=" + page);
   }
 
+  searchSeries(query: string): Observable<[Series]> {
+    return this._http.get<[Series]>(this._baseUrl + "?q=" + query + "&count=20");
+  }
+
+
   getSeries(seriesId: string): Observable<Series> {
     return this._http.get<Series>(this._baseUrl + "/" + seriesId);
   }
@@ -31,8 +36,6 @@ export class SeriesDataService {
   }
 
   public delete(seriesId: string) {
-    return this._http.delete<Series>(this._baseUrl + "/" + seriesId, {
-      headers: { "Authorization": "Bearer " + this._authService.token }
-    });
+    return this._http.delete<Series>(this._baseUrl + "/" + seriesId);
   }
 }

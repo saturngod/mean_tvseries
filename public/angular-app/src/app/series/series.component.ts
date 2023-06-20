@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Season, Series } from '../models/series';
 import { SeriesDataService } from '../series-data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -23,7 +23,9 @@ export class SeriesComponent implements OnInit {
     }
   }
 
-  constructor(private seriesDataService: SeriesDataService, private activatedRoute: ActivatedRoute) {}
+  constructor(private seriesDataService: SeriesDataService, 
+    private activatedRoute: ActivatedRoute,
+    private _router: Router) {}
 
   getEpisodeImage(imageLink: string) {
     if(imageLink != "") {
@@ -49,6 +51,17 @@ export class SeriesComponent implements OnInit {
 
   changeSeason(season: Season) {
     this.selectedSeason = season;
+  }
+
+  confirmDelete() {
+    this.seriesDataService.delete(this.seriesId).subscribe(
+      {
+        next:() => {
+          this._router.navigate([""]);
+        }
+      }
+    )
+    
   }
 
 
