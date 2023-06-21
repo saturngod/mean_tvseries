@@ -42,7 +42,7 @@ export class SeriesComponent implements OnInit {
   }
   ngOnInit(): void {
     this.seriesId =  this.activatedRoute.snapshot.params["seriesId"];
-    this.seriesDataService.getSeries(this.seriesId).subscribe({
+    this.seriesDataService.getSeries(this.seriesId,false).subscribe({
       next: (series) => {
         this.series = series;
         this.selectedSeason = series.seasons[0];

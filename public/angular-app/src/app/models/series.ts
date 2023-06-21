@@ -1,3 +1,4 @@
+import { FormGroup } from "@angular/forms"
 
 export class Episode {
     #_id!: string
@@ -91,4 +92,24 @@ export class Series {
     get poster() {return this.#poster}
     get genres() {return this.#genres}
     get seasons() { return this.#seasons}
+
+    fillFromForm(formGroup: FormGroup) {
+        this.title = formGroup.value.title;
+        this.first_air_date = formGroup.value.first_air_date;
+        this.description = formGroup.value.description;
+        this.origin_country = formGroup.value.origin_country;
+        this.rate = formGroup.value.rate;
+        this.poster = formGroup.value.poster;
+    }
+
+    toJSON() {
+        return {
+            "title": this.title,
+            "first_air_date": this.first_air_date,
+            "description": this.description,
+            "origin_country": this.origin_country,
+            "rate" : this.rate,
+            "poster": this.poster
+        };
+    }
 }

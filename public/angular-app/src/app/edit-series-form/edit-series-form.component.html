@@ -1,0 +1,77 @@
+<div class="container mainbody">
+    <div class="row">
+        <h6 class="mb-4">Edit Series</h6>
+        <div class="text-danger">{{errorMessage}}</div>
+        <form [formGroup]="seriesForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <img [src]="imageLink" width="120rem;">
+                <br/>
+                <label for="poster" class="form-label">Poster</label>
+                <input type="text" 
+                class="form-control" 
+                id="poster"
+                name="poster" 
+                required
+                formControlName="poster"
+                (blur)="posterBlur()"
+                placeholder="poster">
+            </div>
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" 
+                class="form-control" 
+                id="title" 
+                name="title" 
+                required
+                formControlName="title"
+                placeholder="title">
+            </div>
+
+            <div class="mb-3">
+                <label for="first_air_date" class="form-label">First Air Date</label>
+                <input type="text" 
+                class="form-control" 
+                id="first_air_date" 
+                name="first_air_date" 
+                required
+                formControlName="first_air_date"
+                placeholder="First Air Date">
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea 
+                class="form-control" 
+                id="description" 
+                name="description" 
+                required
+                rows="6"
+                formControlName="description"
+                placeholder="description"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="origin_country" class="form-label">Origin Country</label>
+                <input type="text" 
+                class="form-control" 
+                id="origin_country" 
+                name="origin_country" 
+                required
+                formControlName="origin_country"
+                placeholder="Origin Country">
+            </div>
+
+            <div class="mb-3">
+                <label for="rate" class="form-label">Rate</label>
+                <input type="number" 
+                class="form-control" 
+                id="rate" 
+                name="rate" 
+                required
+                formControlName="rate"
+                placeholder="Origin Country">
+            </div>
+            <button [disabled]="!seriesForm.valid" type="submit" class="btn btn-outline-primary">Update</button>
+        </form>
+    </div>
+</div>

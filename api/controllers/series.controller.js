@@ -79,8 +79,11 @@ const _addSeries = function(newSeries) {
   return seriesService.addSeries(newSeries);
 }
 
-const _findSeriesById = function(seriesID) {
-  return seriesService.findSeriesById(seriesID);
+const _findSeriesById = function(req,seriesID) {
+  if(req.query.less) {
+    return seriesService.findSeriesById(seriesID,true);  
+  }
+  return seriesService.findSeriesById(seriesID,false);
 }
 
 const _deleteOneSeries = function(seriesID) {
@@ -122,7 +125,7 @@ const add = function(req, res) {
 
 const findById = function(req, res) {
   const seriesID = _getSeriesId(req);
-  _findSeriesById(seriesID)
+  _findSeriesById(req,seriesID)
     .then((series) => _validateIsExist(series))
     .then((series) => _response(res, series))
     .catch((error) => _handleErrorResponse(res, error));

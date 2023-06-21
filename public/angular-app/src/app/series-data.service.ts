@@ -27,12 +27,19 @@ export class SeriesDataService {
   }
 
 
-  getSeries(seriesId: string): Observable<Series> {
+  getSeries(seriesId: string,lessData: boolean): Observable<Series> {
+    if(lessData) {
+      return this._http.get<Series>(this._baseUrl + "/" + seriesId + "?less=1");
+    }
     return this._http.get<Series>(this._baseUrl + "/" + seriesId);
   }
 
   getPageInfo(page: number): Observable<PageInfo> {
     return this._http.get<PageInfo>(this._baseUrl + "/pages?page=" + page);
+  }
+
+  updateSeries(series: Series,seriesId: string): Observable<Series> {
+    return this._http.patch<Series>(this._baseUrl + "/" + seriesId,series.toJSON());
   }
 
   public delete(seriesId: string) {

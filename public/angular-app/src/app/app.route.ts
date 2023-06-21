@@ -1,3 +1,4 @@
+import { EditSeriesFormComponent } from "./edit-series-form/edit-series-form.component";
 import { HomeComponent } from "./home/home.component";
 import { LoginComponent } from "./login/login.component";
 import { ProfileComponent } from "./profile/profile.component";
@@ -33,5 +34,9 @@ export const Router = [
     {
         path: "search",
         component: SearchComponent
+    },
+    {
+        path: "series/:seriesId/edit",
+        component: EditSeriesFormComponent
     }
 ];

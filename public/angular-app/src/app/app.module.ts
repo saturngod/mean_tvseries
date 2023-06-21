@@ -20,6 +20,7 @@ import { RegisterComponent } from './register/register.component';
 import { SearchComponent } from './search/search.component';
 import { ModalComponent } from './modal/modal.component';
 import { CoverComponent } from './cover/cover.component';
+import { EditSeriesFormComponent } from './edit-series-form/edit-series-form.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { CoverComponent } from './cover/cover.component';
     ProfileComponent,
     SearchComponent,
     ModalComponent,
-    CoverComponent
+    CoverComponent,
+    EditSeriesFormComponent
   ],
   imports: [
     BrowserModule,
