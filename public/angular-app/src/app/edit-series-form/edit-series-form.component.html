@@ -1,6 +1,6 @@
 <div class="container mainbody">
     <div class="row">
-        <h6 class="mb-4">Edit Series</h6>
+        <h5 class="mb-4">Edit Series</h5>
         <div class="text-danger">{{errorMessage}}</div>
         <form [formGroup]="seriesForm" (ngSubmit)="onSubmit()">
             <div class="mb-3">
@@ -72,6 +72,8 @@
                 placeholder="Origin Country">
             </div>
             <button [disabled]="!seriesForm.valid" type="submit" class="btn btn-outline-primary">Update</button>
+            &nbsp;
+            <button type="button" class="btn btn-outline-secondary" (click)="cancelUpdate()">Cancel</button>
         </form>
     </div>
 </div>

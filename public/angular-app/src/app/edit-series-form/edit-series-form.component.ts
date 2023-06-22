@@ -69,6 +69,10 @@ export class EditSeriesFormComponent implements OnInit {
     });
   }
 
+  cancelUpdate() {
+    this._router.navigate(["series",this.seriesId]);
+  }
+
   onSubmit() {
     this.errorMessage = "";
 

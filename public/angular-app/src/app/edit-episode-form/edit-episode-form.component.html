@@ -1,0 +1,55 @@
+
+<div class="container mainbody">
+    <div class="row">
+        <h5 class="mb-4">Edit Episode</h5>
+        <div class="text-danger">{{errorMessage}}</div>
+        <form [formGroup]= "episodeForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <img [src]="imageLink" width="120rem;">
+                <br/>
+                <label for="image" class="form-label">Image</label>
+                <input type="text" 
+                class="form-control" 
+                id="image"
+                name="image" 
+                required
+                formControlName="image"
+                placeholder="image">
+            </div>
+            <div class="mb-3">
+                <label for="Name" class="form-label">Name</label>
+                <input type="text" 
+                class="form-control" 
+                id="Name" 
+                name="Name" 
+                required
+                formControlName="name"
+                placeholder="Name">
+            </div>
+            <div class="mb-3">
+                <label for="episode_number" class="form-label">Episode Number</label>
+                <input type="text" 
+                class="form-control" 
+                id="episode_number" 
+                name="episode_number" 
+                required
+                formControlName="episode_number"
+                placeholder="Episode Number">
+            </div>
+            <div class="mb-3">
+                <label for="overview" class="form-label">Overview</label>
+                <textarea 
+                class="form-control" 
+                id="overview" 
+                name="overview" 
+                required
+                rows="6"
+                formControlName="overview"
+                placeholder="overview"></textarea>
+            </div>
+            <button type="submit" class="btn btn-outline-primary">Update</button>
+            &nbsp;
+            <button type="button" class="btn btn-outline-secondary" (click)="cancelUpdate()">Cancel</button>
+        </form>
+    </div>
+</div>

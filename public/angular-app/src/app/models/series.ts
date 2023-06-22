@@ -18,6 +18,15 @@ export class Episode {
     get name() { return this.#name}
     get overview() { return this.#overview}
     get image() { return this.#image}
+
+    toJSON() {
+        return {
+            episode_number: this.episode_number,
+            name: this.name,
+            overview: this.overview,
+            image: this.image
+        };
+    }
     
 }
 export class Season {

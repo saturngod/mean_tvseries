@@ -64,6 +64,23 @@ const validateSeries = function(newSeries) {
   });
 }
 
+const deleteEpisode= function(series,seasonIndex,episodeIndex){
+  let seasons = series.seasons[seasonIndex];
+  seasons.episodes.splice(episodeIndex,1);
+  series.seasons[seasonIndex] = seasons;
+  return series.save();
+}
+
+const updateEpisodeData= function(series,seasonIndex,episodeIndex,body){
+  let seasons = series.seasons[seasonIndex];
+  seasons.episodes[episodeIndex].episode_number = body.episode_number;
+  seasons.episodes[episodeIndex].name = body.name;
+  seasons.episodes[episodeIndex].overview = body.overview;
+  seasons.episodes[episodeIndex].image = body.image;
+  series.seasons[seasonIndex] = seasons;
+  return series.save();
+}
+
 module.exports = {
   getSeriesIdFromRequest,
   findSeries,
@@ -74,5 +91,7 @@ module.exports = {
   findSeriesByIdAndUpdate,
   findSeriesByIdAndReplace,
   validateSeries,
-  countSeries
+  countSeries,
+  deleteEpisode,
+  updateEpisodeData
 }

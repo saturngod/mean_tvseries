@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Series } from './models/series';
+import { Episode, Series } from './models/series';
 import { AuthenticationService } from './authentication.service';
 import { environment } from 'src/environments/environment';
 import { PageInfo } from './models/page-info';
@@ -44,5 +44,13 @@ export class SeriesDataService {
 
   public delete(seriesId: string) {
     return this._http.delete<Series>(this._baseUrl + "/" + seriesId);
+  }
+
+  public deleteEpisode(seriesId: string,seasonId: number,episodeId: number): Observable<Series> {
+    return this._http.delete<Series>(this._baseUrl + "/" + seriesId + "/seasons/" + seasonId + "/episodes/" + episodeId);
+  }
+
+  public updateEpisode(seriesId: string,seasonId: number,episodeId: number,episode: Episode): Observable<Series> {
+    return this._http.patch<Series>(this._baseUrl + "/" + seriesId + "/seasons/" + seasonId + "/episodes/" + episodeId + "/edit",episode.toJSON());
   }
 }

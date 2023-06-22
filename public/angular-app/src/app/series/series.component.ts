@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Season, Series } from '../models/series';
 import { SeriesDataService } from '../series-data.service';
 import { environment } from 'src/environments/environment';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-series',
@@ -15,6 +16,11 @@ export class SeriesComponent implements OnInit {
   seriesId: string = "";
   selectedSeason: Season = new Season();
 
+  selectedSeasonIndex: number = 0;
+
+
+  get isLogin() { return this.authService.isLogin; }
+
   get categories() { 
     if(this.series.genres) {
       return this.series?.genres.join(",") ?? "";
@@ -25,33 +31,36 @@ export class SeriesComponent implements OnInit {
   }
 
   constructor(private seriesDataService: SeriesDataService, 
+    private authService: AuthenticationService,
     private activatedRoute: ActivatedRoute,
     private _router: Router) {}
 
-  getEpisodeImage(imageLink: string) {
-    if(imageLink != "") {
-      return imageLink;
-    }
-    else {
-      return environment.noEpisodeImage;
-    }
-  }
+  
   
   activeList(seasonName: string) {
     return seasonName == this.selectedSeason.name;
   }
   ngOnInit(): void {
     this.seriesId =  this.activatedRoute.snapshot.params["seriesId"];
+    this._loadSeries();
+  }
+
+  _loadSeries() {
     this.seriesDataService.getSeries(this.seriesId,false).subscribe({
       next: (series) => {
         this.series = series;
-        this.selectedSeason = series.seasons[0];
+        this.selectedSeason = series.seasons[this.selectedSeasonIndex];
       }
     })
   }
 
+  episodeDelete(series: Series) {
+    this._loadSeries();
+  }
+
   changeSeason(season: Season) {
     this.selectedSeason = season;
+    this.selectedSeasonIndex = this.series.seasons.indexOf(season);
   }
 
   confirmDelete() {

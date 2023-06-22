@@ -21,6 +21,8 @@ import { SearchComponent } from './search/search.component';
 import { ModalComponent } from './modal/modal.component';
 import { CoverComponent } from './cover/cover.component';
 import { EditSeriesFormComponent } from './edit-series-form/edit-series-form.component';
+import { EpisodesListComponent } from './episodes-list/episodes-list.component';
+import { EditEpisodesFormComponent } from './edit-episode-form/edit-episode-form.component';
 
 @NgModule({
   declarations: [
@@ -37,14 +39,18 @@ import { EditSeriesFormComponent } from './edit-series-form/edit-series-form.com
     SearchComponent,
     ModalComponent,
     CoverComponent,
-    EditSeriesFormComponent
+    EditSeriesFormComponent,
+    EditEpisodesFormComponent,
+    EpisodesListComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    RouterModule.forRoot(Router)
+    RouterModule.forRoot(Router, {
+      scrollPositionRestoration: 'enabled'
+  })
   ],
   providers: [
     {provide: JWT_OPTIONS, useValue: JWT_OPTIONS},

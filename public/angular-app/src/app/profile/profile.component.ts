@@ -39,6 +39,7 @@ export class ProfileComponent implements OnInit {
   }
 
   _passwordFormChecking(): boolean {
+    this.successMessage = "";
     if(this.profileForm.value.newPassword == "") {
       this.errorMessage = environment.MESSAGE_NEW_PASSWORD_REQUIRED;
       return false;

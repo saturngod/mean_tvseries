@@ -30,7 +30,19 @@ export class HeaderComponent implements OnInit{
     this._activatedRoute.queryParams.subscribe({
         next: (value: Params) => this._updateSearchQuery(value)
     });
+    this._isTokenExpire();
   }
+
+  _isTokenExpire() {
+    if(this._authService.token) {
+      const isExpire = this._authService.isTokenExpired(this._authService.token);
+      if(isExpire) {
+        this._authService.logout();
+      }
+    }
+  }
+
+
 
   search(form:NgForm) {
     

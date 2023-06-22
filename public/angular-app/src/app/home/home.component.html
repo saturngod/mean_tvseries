@@ -1,12 +1,13 @@
 <div class="container mainbody">
-  <div class="row mt-5">
-    <div class="col-auto" *ngFor="let currentSeries of series">
-
-      <app-cover [series]="currentSeries"></app-cover>
-      
-    </div>
-  </div>
+ 
   <div class="row mt-2">
     <app-pagination [pageInfo]="pageInfo" [page]="currentpage"></app-pagination>
   </div>
+  
+  <div class="row mt-2">
+    <div class="col-auto" *ngFor="let currentSeries of series">
+      <app-cover [series]="currentSeries"></app-cover>
+    </div>
+  </div>
+
 </div>

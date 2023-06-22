@@ -1,9 +1,18 @@
 const mongoose = require("mongoose");
 
 const episodeSchema = mongoose.Schema({
-    episode_number: Number,
-    name: String,
-    overview: String,
+    episode_number: {
+        type:Number,
+        required: true
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    overview: {
+        type: String,
+        required: true
+    },
     image: String
 });
 

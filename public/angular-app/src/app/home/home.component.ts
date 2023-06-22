@@ -37,7 +37,6 @@ export class HomeComponent implements OnInit{
     return pageNo;
   }
 
-  
   ngOnInit(): void {
     this._loadPageData();
   }

@@ -97,7 +97,7 @@ const _validateRegisterRequest = function(req) {
 const _generate_token = function(username, name) {
   
   const jwtSign = utils.promisify(jwt.sign)
-  return jwtSign({ username, name }, process.env.JWT_KEY, { "expiresIn": 50000 })
+  return jwtSign({ username, name }, process.env.JWT_KEY, { "expiresIn": "2 days" })
 }
 
 const login = function(req, res) {

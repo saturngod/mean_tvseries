@@ -15,7 +15,7 @@
                     
                 </div>
             </div>
-            <div class="action">
+            <div class="action" *ngIf="isLogin">
                     <div class="row">
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteBox">
                         <i class="bi bi-trash"></i>
@@ -57,21 +57,12 @@ confirmText="Delete"
         <main class="col-10">
             <h5>{{selectedSeason.name}} Season</h5>
             <br/>
-            <div class="card mb-3 episodes" *ngFor="let episode of selectedSeason.episodes">
-                <div class="row g-0">
-                    <div class="col-md-2">
-                        <img src="{{getEpisodeImage(episode.image)}}" class="img-fluid rounded-start">
-                    </div>
-                    <div class="col-md-10">
-                        <div class="card-body pt-0">
-                            <h5 class="card-title">{{episode.name}}</h5>
-                            <p class="card-text">{{episode.overview}}</p>
-                            <p class="card-text"><small class="text-body-secondary">Episode:
-                                    #{{episode.episode_number}}</small></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <app-episodes-list 
+            [seriesId]="seriesId" 
+            [season]="selectedSeason" 
+            [seasonIndex]="selectedSeasonIndex"
+            (onDelete)="episodeDelete($event)"
+            ></app-episodes-list>
         </main>
     </div>
 </div>

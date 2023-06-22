@@ -1,0 +1,40 @@
+<app-modal modelId="deleteEpisodesBox" 
+header="Do you want to delete ?" 
+body="It will delete from the database and cannot restore."
+confimClass="btn-danger"
+confirmText="Delete"
+(confirmClick)="confirmDelete()"
+></app-modal>
+
+<div class="card mb-3 episodes" *ngFor="let episode of season.episodes">
+    <div class="row g-0">
+        
+        <div class="col-md-2">
+            <img src="{{getEpisodeImage(episode.image)}}" class="img-fluid rounded-start">
+        </div>
+
+        <div class="col-md-10">
+            <div class="card-body pt-0">
+                <h5 class="card-title">{{episode.name}}</h5>
+                <p class="card-text">{{episode.overview}}</p>
+                <p class="card-text"><small class="text-body-secondary">Episode:
+                        #{{episode.episode_number}}</small></p>
+                        <div class="row" *ngIf="isLogin">
+                            <div class="col-auto">
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteEpisodesBox" (click)="saveDelete(episode._id)">
+                                <i class="bi bi-trash"></i>
+                                Delete
+                            </button>
+                            </div>
+                            
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-info" (click)="editEpisode(episode._id)">
+                                    <i class="bi bi-pencil-square"></i>
+                                    Edit
+                                </button>
+                                </div>
+                        </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -196,6 +196,8 @@ const getAllPages = function(req, res) {
 }
 
 
+
+
 module.exports = {
   findAll,
   add,

@@ -17,6 +17,11 @@ export class AuthenticationService {
     return true;
   }
 
+  isTokenExpired(token: string) {
+    return this._jwt.isTokenExpired(token);
+  }
+  
+
   saveLoginToken(token: string) {
     localStorage.setItem("_token",token);
   }
