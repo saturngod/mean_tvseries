@@ -6,6 +6,7 @@ import { ProfileComponent } from "./profile/profile.component";
 import { RegisterComponent } from "./register/register.component";
 import { SearchComponent } from "./search/search.component";
 import { SeriesComponent } from "./series/series.component";
+import { NotFoundComponent } from "./not-found/not-found.component";
 
 export const Router = [
     {
@@ -43,5 +44,9 @@ export const Router = [
     {
         path: "series/:seriesId/season/:seasonIndex/episode/:episodeIndex/edit",
         component: EditEpisodesFormComponent
+    },
+    {
+        path: "**",
+        component: NotFoundComponent
     }
 ];

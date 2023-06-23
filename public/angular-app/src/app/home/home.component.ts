@@ -34,17 +34,27 @@ export class HomeComponent implements OnInit{
     else if(pageNo <= 0) {
       pageNo = 1;
     }
+    
     return pageNo;
   }
 
   ngOnInit(): void {
-    this._loadPageData();
+    this._loadPageData()
+  }
+
+  _fillUpInfo(info: PageInfo) {
+    return new Promise((resolve,reject) => {
+        this.pageInfo = info;
+        resolve(info);
+    })
+    
   }
 
   _loadPageData() {
     this.currentpage = this._getPageNumber();
-    this._loadSeries();
-    this._loadPageInfo();
+    this._loadPageInfo()
+    .then((info: PageInfo) => this._fillUpInfo(info))
+    .then(() => this._loadSeries())
   }
 
 
@@ -60,40 +70,16 @@ export class HomeComponent implements OnInit{
   }
 
   _loadPageInfo() {
-    this._seriesDataService.getPageInfo(this.currentpage)
+    return new Promise<PageInfo>((resolve,reject) => {
+      this._seriesDataService.getPageInfo(this.currentpage)
     .subscribe({
-      next: (info: PageInfo) => {
-        this.pageInfo = info;
-      }
+      next: (info: PageInfo) => resolve(info)
     });
+    })
+    
   }
 
-  prev() {
-    if(this.currentpage > 1) {
-      this.currentpage = this.currentpage - 1;
-      if(this.currentpage == 1) {
-        this.pageInfo.first = true;
-      }
-      else {
-        this.pageInfo.first = false;
-      }
-      this._loadSeries();
-    }
-  }
-
-  next() {
-    let maxPage= this.pageInfo.totalPage;
-    if(this.currentpage < maxPage) {
-      this.currentpage = this.currentpage + 1;
-      if(this.currentpage == maxPage) {
-        this.pageInfo.last = true;
-      }
-      else {
-        this.pageInfo.last = false;
-      }
-      this._loadSeries();
-    }
-  }
+ 
 
 
 }

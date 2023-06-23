@@ -1,6 +1,7 @@
 export const environment = {
     baseUrl: "http://localhost:3000/api",
     noEpisodeImage: "/assets/img/no_image.png",
+    notFoundImage: "/assets/img/notfound.png",
 
     MESSAGE_INVALID_LOGIN: "Invalid login",
     MESSAGE_NEW_PASSWORD_REQUIRED: "New Password is required",

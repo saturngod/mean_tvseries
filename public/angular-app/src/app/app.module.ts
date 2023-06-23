@@ -23,6 +23,7 @@ import { CoverComponent } from './cover/cover.component';
 import { EditSeriesFormComponent } from './edit-series-form/edit-series-form.component';
 import { EpisodesListComponent } from './episodes-list/episodes-list.component';
 import { EditEpisodesFormComponent } from './edit-episode-form/edit-episode-form.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { EditEpisodesFormComponent } from './edit-episode-form/edit-episode-form
     EditSeriesFormComponent,
     EditEpisodesFormComponent,
     EpisodesListComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

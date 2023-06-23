@@ -43,14 +43,24 @@ It has following component
 - pagination
 - profile
 - register
+- login
 - series
 - star-rating
+- search
+- cover
+- edit-episode-from
+- edit-series-form
+- episodes-list
 
 It has following services
 
 - authentication
 - series-data
 - user-data
+
+Using interceptor for token passing.
+
+- authentication.interceptor
 
 ## Node
 
